@@ -11,12 +11,10 @@ ArrayList* createArrayList(int maxElementCount)
 		return (NULL);
 	if (!(array = (ArrayList *)malloc(sizeof(ArrayList))))
 		return (NULL);
-	//array로 선언을하고 malloc없이 &array반환하는것은 불가능한지!
 	array->currentElementCount = 0;
 	array->maxElementCount = maxElementCount; 
 	if (!(array->pElement = (ArrayListNode *)malloc(sizeof(ArrayListNode) * array->maxElementCount)))
 		return (NULL);
-	//pElement에 0으로 채워져야하나요?
 	return (array);
 }
 
