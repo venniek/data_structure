@@ -12,8 +12,8 @@ ArrayList* createArrayList(int maxElementCount)
 	if (!(array = (ArrayList *)malloc(sizeof(ArrayList))))
 		return (NULL);
 	array->currentElementCount = 0;
-	array->maxElementCount = maxElementCount; 
-	if (!(array->pElement = (ArrayListNode *)malloc(sizeof(ArrayListNode) * array->maxElementCount)))
+	array->maxElementCount = maxElementCount;
+	if (!(array->pElement = (ArrayListNode *)calloc(array->maxElementCount, sizeof(ArrayListNode)))) ///malloc->calloc
 		return (NULL);
 	return (array);
 }
@@ -22,6 +22,7 @@ void deleteArrayList(ArrayList* pList)
 {
 	if (!pList)
 		return (NULL);
+	clearArrayList(pList);   //add clearArrayList
 	free(pList->pElement);
 	free(pList);
 }
@@ -50,7 +51,7 @@ int addALElement(ArrayList* pList, int position, ArrayListNode element)
 		pList->pElement[i] = pList->pElement[i - 1];
 		i--;
 	}
-	pList->pElement[position] = element;
+	pList->pElement[position].data = element.data;   //add .data
 	pList->currentElementCount++;
 	return (TRUE);
 }
@@ -62,9 +63,10 @@ int removeALElement(ArrayList* pList, int position)
 		return (NULL);
 	if (position < 0 || position >= pList->currentElementCount)
 		return (NULL);
+	pList->pElement[i].data = 0;  //add 
 	while(i < pList->currentElementCount - 1)
 	{
-		pList->pElement[i] = pList->pElement[i + 1];
+		pList->pElement[i].data = pList->pElement[i + 1].data;  //add .data
 		i++;
 	}
 	pList->currentElementCount--;
@@ -84,8 +86,8 @@ void displayArrayList(ArrayList* pList)
 {
 	if(!pList)
 		return (NULL);
-	printf("MAX ELEMENT COUNT:%d\n", pList->maxElementCount);
-	printf("CURRENT ELEMENT COUNT:%d\n", pList->currentElementCount);
+	// printf("MAX ELEMENT COUNT:%d\n", pList->maxElementCount);
+	// printf("CURRENT ELEMENT COUNT:%d\n", pList->currentElementCount);  ////remove? 
 	for (int i = 0; i < pList->currentElementCount; i++)
 		printf("pElement[%d]: %d\n", i, pList->pElement[i].data);
 }

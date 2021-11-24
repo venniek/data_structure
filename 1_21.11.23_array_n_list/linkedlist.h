@@ -1,5 +1,5 @@
 #ifndef _LINKEDLIST_
-#define _LINKEDLIST_
+# define _LINKEDLIST_
 
 typedef struct ListNodeType
 {
@@ -21,12 +21,14 @@ ListNode* getLLElement(LinkedList* pList, int position);
 void clearLinkedList(LinkedList* pList);
 int getLinkedListLength(LinkedList* pList);
 void deleteLinkedList(LinkedList* pList);
+
+void print_list(ListNode *curr);
 #endif
 
 #ifndef _COMMON_LIST_DEF_
-#define _COMMON_LIST_DEF_
+# define _COMMON_LIST_DEF_
 
-#define TRUE		1
-#define FALSE		0
+# define TRUE		1
+# define FALSE		0
 
 #endif
