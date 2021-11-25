@@ -1,4 +1,4 @@
-#include "linkedlist.h"
+#include "./1/linkedlist.h"
 #include <string.h> //NULL
 #include <stdlib.h> //malloc
 
@@ -15,40 +15,41 @@ LinkedList* createLinkedList()
 }
 
 int addLLElement(LinkedList* pList, int position, ListNode element)
-//element를 nownode에 넣어 list단위에서 pLink를 관리하면 편함
 {
-	ListNode *temp;
-	ListNode *nownode;
+	ListNode *prev;
+	ListNode *newE;
 
-	if(!pList)  //erase &element == NULL
-		return (FALSE);  //change all NULL->FALSE
+	if(!pList)
+		return (FALSE);
 	if (position < 0 || position > pList->currentElementCount)
 		return (FALSE);
-	nownode->data = element.data;
-	nownode->pLink = 0;
-	temp = &(pList->headerNode);
+	if (!(newE = (ListNode *)malloc(sizeof(ListNode))))
+		return (FALSE);
+	*newE = element;
+	newE->pLink = NULL;
+	prev = &(pList->headerNode);
 	while(position--)
-		temp = temp->pLink;
-	nownode->pLink = temp->pLink;
-	temp->pLink = nownode;
+		prev = prev->pLink;
+	newE->pLink = prev->pLink;
+	prev->pLink = newE;
 	pList->currentElementCount++;
 	return (TRUE);
 }
 
 int removeLLElement(LinkedList* pList, int position)
 {
-	ListNode *temp;
+	ListNode *prev;
 	ListNode *delnode;
 
 	if(!pList)
 		return (FALSE);
 	if (position < 0 || position >= pList->currentElementCount)
 		return (FALSE);
-	temp = &(pList->headerNode);
+	prev = &(pList->headerNode);
 	while(position--)
-		temp = temp->pLink;
-	delnode = temp->pLink;
-	temp->pLink = delnode->pLink;
+		prev = prev->pLink;
+	delnode = prev->pLink;
+	prev->pLink = delnode->pLink;
 	free(delnode);
 	pList->currentElementCount--;
 	return (TRUE);
@@ -56,23 +57,22 @@ int removeLLElement(LinkedList* pList, int position)
 
 ListNode* getLLElement(LinkedList* pList, int position)
 {
-	ListNode *temp;
+	ListNode *prev;
 
 	if(!pList)
 		return (NULL);
 	if (position < 0 || position >= pList->currentElementCount)
 		return (NULL);
-	temp = &(pList->headerNode);
+	prev = &(pList->headerNode);
 	position++;
 	while(position--)
-		temp = temp->pLink;
-	return (temp);
-	//리턴값을 따로 선언해야하나요?
+		prev = prev->pLink;
+	return (prev);
 }
 
 void clearLinkedList(LinkedList* pList)
 {
-	ListNode *temp;
+	ListNode *prev;
 
 	if(!pList)
 		return;
