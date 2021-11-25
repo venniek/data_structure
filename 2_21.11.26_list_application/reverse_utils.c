@@ -1,6 +1,4 @@
-#include "linkedlist.h"
-#include <string.h> //NULL
-#include <stdlib.h> //malloc
+#include "reverse_list.h"
 
 LinkedList* createLinkedList()
 {

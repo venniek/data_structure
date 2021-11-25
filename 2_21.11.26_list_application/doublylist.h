@@ -1,6 +1,10 @@
 #ifndef _DOUBLYLIST_
 #define _DOUBLYLIST_
 
+#include <string.h> //NULL
+#include <stdlib.h> //malloc
+#include <stdio.h> //printf
+
 typedef struct DoublyListNodeType
 {
 	int data;
@@ -10,8 +14,8 @@ typedef struct DoublyListNodeType
 
 typedef struct DoublyListType
 {
-	int	currentElementCount;		// ÇöÀç ÀúÀåµÈ ¿ø¼ÒÀÇ °³¼ö
-	DoublyListNode	headerNode;		// Çì´õ ³ëµå(Header Node)
+	int	currentElementCount;		// í˜„ì¬ ì €ì¥ëœ ì›ì†Œì˜ ê°œìˆ˜
+	DoublyListNode	headerNode;		// í—¤ë” ë…¸ë“œ(Header Node)
 } DoublyList;
 
 DoublyList* createDoublyList();

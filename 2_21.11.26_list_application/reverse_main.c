@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "linkedlist.h"
+#include "reverse_list.h"
 #include <stdio.h>
-#include <stdlib.h>
 
 void print_list(ListNode *curr)
 {

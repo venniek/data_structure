@@ -1,6 +1,8 @@
 #ifndef _LINKEDLIST_
 #define _LINKEDLIST_
 
+#include <string.h>
+#include <stdlib.h>
 typedef struct ListNodeType
 {
 	int data;
@@ -23,7 +25,7 @@ int getLinkedListLength(LinkedList* pList);
 void deleteLinkedList(LinkedList* pList);
 
 void print_list(ListNode *curr);
-//void reverseLinkedList(LinkedList* pList);
+void reverseLinkedList(LinkedList* pList);
 #endif
 
 #ifndef _COMMON_LIST_DEF_
