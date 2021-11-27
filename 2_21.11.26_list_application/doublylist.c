@@ -85,6 +85,7 @@ DoublyListNode* getDLElement(DoublyList* pList, int position)
 
 	if(!pList)
 		return (NULL);
+	//// position이 절반보다 작은지 큰지 봐서 앞에서 올지 뒤에서 올지 먼저 결정. 시간복잡도 때문에!
 	if (position < 0 || position >= pList->currentElementCount)
 		return (NULL);
 	prev = &(pList->headerNode);

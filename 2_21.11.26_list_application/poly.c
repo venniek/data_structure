@@ -73,5 +73,6 @@ int main()
 	addPolyNodeLast(B, 4, 0);
 	
 	addPoly(A, B, C);
+	print_list(&C->headerNode);
 	return 0;
 }
