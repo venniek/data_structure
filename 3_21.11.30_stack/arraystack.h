@@ -1,6 +1,9 @@
 #ifndef _ARRAY_STACK_
 #define _ARRAY_STACK_
 
+# include <stdlib.h>
+# include <string.h>
+# include <stdio.h>
 typedef struct ArrayStackNodeType {
 	char data;
 } ArrayStackNode;
