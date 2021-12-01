@@ -13,8 +13,8 @@ typedef struct StackNodeType
 
 typedef struct LinkedStackType
 {
-	int currentElementCount;	// 현재 원소의 개수
-	StackNode* pTopElement;		// Top 노드의 포인터
+	int currentElementCount;	// ???? ?????? ????
+	StackNode* pTopElement;		// Top ????? ??????
 } LinkedStack;
 
 LinkedStack* createLinkedStack();

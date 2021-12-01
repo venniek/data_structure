@@ -54,14 +54,14 @@ ArrayStackNode* peekAS(ArrayStack* pStack)
 	return (ret);
 }
 
-void deleteArrayStack(ArrayStack* pStack)
+void deleteArrayStack(ArrayStack* pStack)  // 여기서 pop한거 해제 안해주면 릭?????
 {
 	if (!pStack || !pStack->pElement)
 		return ;
 	free(pStack->pElement);
 	pStack->pElement = 0;
 	free(pStack);
-	pStack = 0;	
+	pStack = 0;
 }
 
 
