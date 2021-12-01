@@ -5,19 +5,34 @@ int dx[4] = {0, 1, 0, -1};
 int dy[4] = {-1, 0, 1, 0};
 int find_ans;
 
-char *num_to_dir(int i)
+char num_to_dir(int i)
 {
 	if (i == 0)
-		return ("NORTH");
+		return ('^');
 	else if (i == 1)
-		return ("EAST");
+		return ('>');
 	else if (i == 2)
-		return ("SOUTH");
+		return ('v');
 	else if (i == 3)
-		return ("WEST");
+		return ('<');
+	else
+		return ('S');
+}
+
+char *num_to_str(int i)
+{
+	if (i == 0)
+		return ("UP");
+	else if (i == 1)
+		return ("RIGHT");
+	else if (i == 2)
+		return ("DOWN");
+	else if (i == 3)
+		return ("LEFT");
 	else
 		return ("START");
 }
+
 
 void findPath(int mazeArray[HEIGHT][WIDTH], MapPosition startPos, MapPosition endPos, LinkedStack *pStack)
 {
@@ -51,16 +66,30 @@ void findPath(int mazeArray[HEIGHT][WIDTH], MapPosition startPos, MapPosition en
 void showPath(LinkedStack *pStack, int mazeArray[HEIGHT][WIDTH])
 {
 	StackNode *tmp_node;
+	char map[HEIGHT][WIDTH] = {0, };
 
 	reverseLinkedStack(pStack);
 	tmp_node = pStack->pTopElement;
 	printf("====================\n");
 	for (int i = 0; i < pStack->currentElementCount; i++)	
 	{
-		printf("(%d, %d) %s\n", tmp_node->pos.x, tmp_node->pos.y, num_to_dir(tmp_node->pos.dir));
+		printf("(%d, %d) %s\n", tmp_node->pos.x, tmp_node->pos.y, num_to_str(tmp_node->pos.dir));
+		if (tmp_node->pLink == NULL)
+			map[tmp_node->pos.y][tmp_node->pos.x] = 'E';
+		else
+			map[tmp_node->pos.y][tmp_node->pos.x] = num_to_dir(tmp_node->pLink->pos.dir);
 		tmp_node = tmp_node->pLink;
 	}
+	printf("--------------------\n");
+	for (int i = 0; i < HEIGHT; i++)
+	{
+		for (int j = 0; j < WIDTH; j++)
+			printf("%c ", map[i][j] == 0 ? ' ' : map[i][j]);
+		printf("\n");
+	}
 	printf("====================\n");
+
+
 	reverseLinkedStack(pStack);
 }
 
@@ -87,15 +116,15 @@ int main()
 	startPos.dir = -1;
 	endPos.x = WIDTH - 1;
 	endPos.y = HEIGHT - 1;
-	endPos.dir = 0;
+	endPos.dir = -1;
 
 	int mazeArray[HEIGHT][WIDTH] = {    
-        {0, 0, 1, 1, 1, 1, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 1},
-		{1, 1, 1, 0, 1, 1, 0, 1},
-		{1, 1, 1, 0, 1, 1, 0, 1},
+        {0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 1, 1, 1, 0, 1, 0, 1},
 		{1, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 1, 1, 1, 1, 0, 1},
+		{1, 0, 1, 1, 0, 1, 0, 1},
+		{1, 0, 1, 1, 0, 0, 0, 1},
+		{1, 0, 1, 1, 1, 1, 1, 1},
 		{1, 0, 0, 0, 0, 0, 0, 0}
     };
 
