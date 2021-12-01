@@ -1,44 +1,56 @@
 #include "./maze_stack.h"
 
-// [0]North [1]East [2]South [3]West
+// [0]UP [1]RIGHT [2]DOWN [3]LEFT
 int dx[4] = {0, 1, 0, -1};
 int dy[4] = {-1, 0, 1, 0};
 int find_ans;
 
-char num_to_dir(int i)
+int pushLSMapPosition(LinkedStack *pStack, MapPosition data)
 {
-	if (i == 0)
-		return ('^');
-	else if (i == 1)
-		return ('>');
-	else if (i == 2)
-		return ('v');
-	else if (i == 3)
-		return ('<');
+	int ret = FALSE;
+	StackNode *newNode = 0;
+
+	if (pStack)
+	{
+		if ((newNode = (StackNode *)calloc(1, sizeof(StackNode))))
+		{
+			newNode->pos = data;
+			pStack->currentElementCount++;
+			newNode->pLink = pStack->pTopElement;
+			pStack->pTopElement = newNode;
+			ret = TRUE;
+		}
+	}
 	else
-		return ('S');
+		printf("Invalid pStack");
+	return (ret);
 }
 
-char *num_to_str(int i)
+StackNode *popLSMapPosition(LinkedStack *pStack)
 {
-	if (i == 0)
-		return ("UP");
-	else if (i == 1)
-		return ("RIGHT");
-	else if (i == 2)
-		return ("DOWN");
-	else if (i == 3)
-		return ("LEFT");
-	else
-		return ("START");
-}
+	StackNode *ret = 0;
 
+	if (pStack)
+	{
+		if (pStack->currentElementCount != 0)
+		{
+			ret = pStack->pTopElement;
+			pStack->pTopElement = ret->pLink;
+			ret->pLink = 0;
+			pStack->currentElementCount--;
+		}
+	}
+	else
+		printf("Invalid pStack");
+	return (ret);
+}
 
 void findPath(int mazeArray[HEIGHT][WIDTH], MapPosition startPos, MapPosition endPos, LinkedStack *pStack)
 {
 	if (startPos.x == endPos.x && startPos.y == endPos.y)
 	{
 		showPath(pStack, mazeArray);
+		showPath_on_Maze(pStack, mazeArray);
 		find_ans = 1;
 		return;
 	}
@@ -66,43 +78,32 @@ void findPath(int mazeArray[HEIGHT][WIDTH], MapPosition startPos, MapPosition en
 void showPath(LinkedStack *pStack, int mazeArray[HEIGHT][WIDTH])
 {
 	StackNode *tmp_node;
-	char map[HEIGHT][WIDTH] = {0, };
 
 	reverseLinkedStack(pStack);
 	tmp_node = pStack->pTopElement;
-	printf("====================\n");
+	printf("PATH================\n");
 	for (int i = 0; i < pStack->currentElementCount; i++)	
 	{
-		printf("(%d, %d) %s\n", tmp_node->pos.x, tmp_node->pos.y, num_to_str(tmp_node->pos.dir));
 		if (tmp_node->pLink == NULL)
-			map[tmp_node->pos.y][tmp_node->pos.x] = 'E';
+			printf("(%d, %d) %s\n", tmp_node->pos.x, tmp_node->pos.y, "END");
 		else
-			map[tmp_node->pos.y][tmp_node->pos.x] = num_to_dir(tmp_node->pLink->pos.dir);
+			printf("(%d, %d) %s\n", tmp_node->pos.x, tmp_node->pos.y, num_to_str(tmp_node->pLink->pos.dir));
 		tmp_node = tmp_node->pLink;
 	}
-	printf("--------------------\n");
-	for (int i = 0; i < HEIGHT; i++)
-	{
-		for (int j = 0; j < WIDTH; j++)
-			printf("%c ", map[i][j] == 0 ? ' ' : map[i][j]);
-		printf("\n");
-	}
 	printf("====================\n");
-
-
 	reverseLinkedStack(pStack);
 }
 
 void printMaze(int mazeArray[HEIGHT][WIDTH])
 {
-	printf("===========================================\n");
+	printf("MAZE================\n");
 	for (int i = 0; i < HEIGHT; i++)
 	{
 		for (int j = 0; j < WIDTH; j++)
 			printf("%d ", mazeArray[i][j]);
 		printf("\n");
 	}
-	printf("===========================================\n");
+	printf("====================\n");
 }
 
 int main()
@@ -118,21 +119,21 @@ int main()
 	endPos.y = HEIGHT - 1;
 	endPos.dir = -1;
 
-	int mazeArray[HEIGHT][WIDTH] = {    
-        {0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 1, 1, 0, 1, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 1},
+	int mazeArray[HEIGHT][WIDTH] = {
+		{0, 0, 0, 0, 0, 0, 0, 0},
+		{1, 1, 1, 1, 0, 1, 1, 0},
+		{1, 0, 0, 0, 0, 0, 0, 0},
 		{1, 0, 1, 1, 0, 1, 0, 1},
 		{1, 0, 1, 1, 0, 0, 0, 1},
 		{1, 0, 1, 1, 1, 1, 1, 1},
 		{1, 0, 0, 0, 0, 0, 0, 0}
-    };
-
+	};
 	printMaze(mazeArray);
 	pushLSMapPosition(pStack, startPos);
 	findPath(mazeArray, startPos, endPos, pStack);
 	if (find_ans == 0)
-		printf("there's no answer\n");
+		printf("There's no answer.\n");
 	deleteLinkedStack(pStack);
+	system("leaks a.out");
 	return 0;
 }
