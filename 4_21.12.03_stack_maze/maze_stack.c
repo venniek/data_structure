@@ -134,6 +134,5 @@ int main()
 	if (find_ans == 0)
 		printf("There's no answer.\n");
 	deleteLinkedStack(pStack);
-	system("leaks a.out");
 	return 0;
 }
