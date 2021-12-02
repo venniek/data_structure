@@ -4,6 +4,8 @@
 int dx[4] = {0, 1, 0, -1};
 int dy[4] = {-1, 0, 1, 0};
 int find_ans;
+int short_dis;
+LinkedStack *ShortStack;
 
 int pushLSMapPosition(LinkedStack *pStack, MapPosition data)
 {
@@ -49,8 +51,10 @@ void findPath(int mazeArray[HEIGHT][WIDTH], MapPosition startPos, MapPosition en
 {
 	if (startPos.x == endPos.x && startPos.y == endPos.y)
 	{
-		showPath(pStack, mazeArray);
-		showPath_on_Maze(pStack, mazeArray);
+		if (short_dis > pStack->currentElementCount)
+			change_short(pStack, ShortStack);
+		//showPath(pStack, mazeArray);
+		//showPath_on_Maze(pStack, mazeArray);
 		find_ans = 1;
 		return;
 	}
@@ -118,7 +122,10 @@ int main()
 	endPos.x = WIDTH - 1;
 	endPos.y = HEIGHT - 1;
 	endPos.dir = -1;
-
+	
+	ShortStack = createLinkedStack();
+	short_dis = HEIGHT * WIDTH;
+	
 	int mazeArray[HEIGHT][WIDTH] = {
 		{0, 0, 0, 0, 0, 0, 0, 0},
 		{1, 1, 1, 1, 0, 1, 1, 0},
@@ -128,11 +135,18 @@ int main()
 		{1, 0, 1, 1, 1, 1, 1, 1},
 		{1, 0, 0, 0, 0, 0, 0, 0}
 	};
+	
 	printMaze(mazeArray);
 	pushLSMapPosition(pStack, startPos);
 	findPath(mazeArray, startPos, endPos, pStack);
 	if (find_ans == 0)
 		printf("There's no answer.\n");
+	else
+	{
+		showPath(ShortStack, mazeArray);
+		showPath_on_Maze(ShortStack, mazeArray);
+	}
 	deleteLinkedStack(pStack);
+	deleteLinkedStack(ShortStack);
 	return 0;
 }

@@ -53,3 +53,18 @@ void showPath_on_Maze(LinkedStack *pStack, int mazeArray[HEIGHT][WIDTH])
 	printf("====================\n");
 	reverseLinkedStack(pStack);
 }
+
+void change_short(LinkedStack *pStack, LinkedStack *ShortStack)
+{
+	StackNode *tmp;
+
+	while (ShortStack->currentElementCount)
+		free(popLSMapPosition(ShortStack));
+	tmp = pStack->pTopElement;
+	while (tmp)
+	{
+		pushLSMapPosition(ShortStack, tmp->pos);
+		tmp = tmp->pLink;
+	}
+	reverseLinkedStack(ShortStack);
+}

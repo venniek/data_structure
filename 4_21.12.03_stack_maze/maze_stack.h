@@ -38,6 +38,7 @@ void printMaze(int mazeArray[HEIGHT][WIDTH]);
 char num_to_dir(int i);
 char *num_to_str(int i);
 void showPath_on_Maze(LinkedStack *pStack, int mazeArray[HEIGHT][WIDTH]);
+void change_short(LinkedStack *pStack, LinkedStack *ShortStack);
 
 #endif
 
