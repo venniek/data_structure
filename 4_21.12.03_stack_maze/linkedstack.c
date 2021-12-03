@@ -11,7 +11,7 @@ LinkedStack *createLinkedStack()
 void reverseLinkedStack(LinkedStack* pStack) 
 {
 	StackNode *pNextNode = NULL, *pCurrentNode = NULL, *pPrevNode = NULL;
-	if (pStack != NULL) 
+	if (pStack != NULL)
 	{
 		pCurrentNode = pStack->pTopElement;
 		while (pCurrentNode)

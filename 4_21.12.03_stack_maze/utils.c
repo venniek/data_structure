@@ -1,6 +1,6 @@
 #include "maze_stack.h"
 
-char num_to_dir(int i)
+char num_to_dir(int i)  //showPath_on_maze
 {
 	if (i == 0)
 		return ('^');
@@ -11,10 +11,10 @@ char num_to_dir(int i)
 	else if (i == 3)
 		return ('<');
 	else
-		return ('S');
+		return ('E');
 }
 
-char *num_to_str(int i)
+char *num_to_str(int i)  //showPath
 {
 	if (i == 0)
 		return ("UP");
@@ -25,7 +25,7 @@ char *num_to_str(int i)
 	else if (i == 3)
 		return ("LEFT");
 	else
-		return ("START");
+		return ("END");
 }
 
 void showPath_on_Maze(LinkedStack *pStack, int mazeArray[HEIGHT][WIDTH])
@@ -33,15 +33,11 @@ void showPath_on_Maze(LinkedStack *pStack, int mazeArray[HEIGHT][WIDTH])
 	StackNode *tmp_node;
 	char map[HEIGHT][WIDTH] = {0, };
 
-	reverseLinkedStack(pStack);
 	tmp_node = pStack->pTopElement;
 	printf("PATH ON MAZE========\n");
 	for (int i = 0; i < pStack->currentElementCount; i++)	
 	{
-		if (tmp_node->pLink == NULL)
-			map[tmp_node->pos.y][tmp_node->pos.x] = 'E';
-		else
-			map[tmp_node->pos.y][tmp_node->pos.x] = num_to_dir(tmp_node->pLink->pos.dir);
+		map[tmp_node->pos.y][tmp_node->pos.x] = num_to_dir(tmp_node->pos.dir);
 		tmp_node = tmp_node->pLink;
 	}
 	for (int i = 0; i < HEIGHT; i++)
@@ -51,7 +47,6 @@ void showPath_on_Maze(LinkedStack *pStack, int mazeArray[HEIGHT][WIDTH])
 		printf("\n");
 	}
 	printf("====================\n");
-	reverseLinkedStack(pStack);
 }
 
 void change_short(LinkedStack *pStack, LinkedStack *ShortStack)

@@ -17,9 +17,9 @@ int pushLSMapPosition(LinkedStack *pStack, MapPosition data)
 		if ((newNode = (StackNode *)calloc(1, sizeof(StackNode))))
 		{
 			newNode->pos = data;
-			pStack->currentElementCount++;
 			newNode->pLink = pStack->pTopElement;
 			pStack->pTopElement = newNode;
+			pStack->currentElementCount++;
 			ret = TRUE;
 		}
 	}
@@ -51,16 +51,20 @@ void findPath(int mazeArray[HEIGHT][WIDTH], MapPosition startPos, MapPosition en
 {
 	if (startPos.x == endPos.x && startPos.y == endPos.y)
 	{
+		pushLSMapPosition(pStack, startPos);
 		if (short_dis > pStack->currentElementCount)
 			change_short(pStack, ShortStack);
-		//showPath(pStack, mazeArray);
-		//showPath_on_Maze(pStack, mazeArray);
+		// 새로운 경로 찾을 때마다 출력해주기
+		// showPath(pStack, mazeArray);
+		// showPath_on_Maze(pStack, mazeArray);
 		find_ans = 1;
+		free(popLSMapPosition(pStack));
 		return;
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		MapPosition tmp;
+		MapPosition next;
+		MapPosition now;
 		
 		int nx = startPos.x + dx[i];
 		int ny = startPos.y + dy[i];
@@ -68,12 +72,15 @@ void findPath(int mazeArray[HEIGHT][WIDTH], MapPosition startPos, MapPosition en
 			continue;
 		if (mazeArray[ny][nx] != 0)
 			continue;
+		now.x = startPos.x;
+		now.y = startPos.y;
+		now.dir = i;
+		next.x = nx;
+		next.y = ny;
+		next.dir = -1;
 		mazeArray[ny][nx] = 2;
-		tmp.x = nx;
-		tmp.y = ny;
-		tmp.dir = i;
-		pushLSMapPosition(pStack, tmp);
-		findPath(mazeArray, tmp, endPos, pStack);
+		pushLSMapPosition(pStack, now);
+		findPath(mazeArray, next, endPos, pStack);
 		free(popLSMapPosition(pStack));
 		mazeArray[ny][nx] = 0;
 	}
@@ -88,10 +95,7 @@ void showPath(LinkedStack *pStack, int mazeArray[HEIGHT][WIDTH])
 	printf("PATH================\n");
 	for (int i = 0; i < pStack->currentElementCount; i++)	
 	{
-		if (tmp_node->pLink == NULL)
-			printf("(%d, %d) %s\n", tmp_node->pos.x, tmp_node->pos.y, "END");
-		else
-			printf("(%d, %d) %s\n", tmp_node->pos.x, tmp_node->pos.y, num_to_str(tmp_node->pLink->pos.dir));
+		printf("(%d, %d) %s\n", tmp_node->pos.x, tmp_node->pos.y, num_to_str(tmp_node->pos.dir));
 		tmp_node = tmp_node->pLink;
 	}
 	printf("====================\n");
@@ -115,7 +119,6 @@ int main()
 	MapPosition startPos;
 	MapPosition endPos;
 	LinkedStack *pStack = createLinkedStack();
-	
 	startPos.x = 0;
 	startPos.y = 0;
 	startPos.dir = -1;
@@ -135,9 +138,9 @@ int main()
 		{1, 0, 1, 1, 1, 1, 1, 1},
 		{1, 0, 0, 0, 0, 0, 0, 0}
 	};
-	
+
 	printMaze(mazeArray);
-	pushLSMapPosition(pStack, startPos);
+	mazeArray[0][0] = 2;
 	findPath(mazeArray, startPos, endPos, pStack);
 	if (find_ans == 0)
 		printf("There's no answer.\n");
