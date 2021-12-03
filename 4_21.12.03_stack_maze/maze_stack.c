@@ -1,4 +1,4 @@
-#include "./maze_stack.h"
+#include "maze_stack.h"
 
 // [0]UP [1]RIGHT [2]DOWN [3]LEFT
 int dx[4] = {0, 1, 0, -1};
