@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include "bintree.h"
 
-
-
 int main()
 {
 	BinTreeNode rootNode_a = {'a', 0, 0, 0, 0};
@@ -28,15 +26,12 @@ int main()
 	insertLeftChildNodeBT(curr, rootNode_d);
 	insertLeftChildNodeBT(curr->pLeftChild, rootNode_h);
 	insertRightChildNodeBT(curr->pLeftChild, rootNode_i);
-	
 	insertRightChildNodeBT(curr, rootNode_e);
 	insertLeftChildNodeBT(curr->pRightChild, rootNode_j);
-
 
 	curr = getRightChildNodeBT(bintree->pRootNode);
 	insertLeftChildNodeBT(curr, rootNode_f);
 	insertRightChildNodeBT(curr->pLeftChild, rootNode_k);
-	
 	insertRightChildNodeBT(curr, rootNode_g);
 	insertLeftChildNodeBT(curr->pRightChild, rootNode_l);
 	insertRightChildNodeBT(curr->pRightChild, rootNode_m);
@@ -57,9 +52,6 @@ int main()
 	// printf("\n===========done==============\n");
 
 	deleteBinTree(bintree);
-	printf("after delete tree\n");
-	preorder_traversal(bintree->pRootNode);
-	printf("\ndone?\n");
 
 	return 0;
 }

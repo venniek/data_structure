@@ -27,12 +27,10 @@ BinTreeNode* getRightChildNodeBT(BinTreeNode* pNode);
 void deleteBinTree(BinTree* pBinTree);
 void deleteBinTreeNode(BinTreeNode* pNode);
 
-
 void preorder_traversal(BinTreeNode *pNode);
 void inorder_traversal(BinTreeNode *pNode);
 void postorder_traversal(BinTreeNode *pNode);
 void visited_zero_traversal(BinTreeNode *pNode);
-
 
 #endif
 

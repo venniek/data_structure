@@ -119,7 +119,7 @@ int main()
 	int isOnService = FALSE;
 
 	int systemTime = 0;
-	int closingTime = 4;
+	int closingTime = 15;
 	int totalWaitTime = 0;
 	int serviceUserCount = 0;
 

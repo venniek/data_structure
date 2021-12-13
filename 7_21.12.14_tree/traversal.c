@@ -13,14 +13,6 @@ void preorder_traversal(BinTreeNode *pNode)
 	preorder_traversal(pNode->pRightChild);
 }
 
-void visited_zero_traversal(BinTreeNode *pNode)
-{
-	if (!pNode)
-		return ;
-	pNode->visited = 0;
-	visited_zero_traversal(pNode->pLeftChild);
-	visited_zero_traversal(pNode->pRightChild);
-}
 
 void inorder_traversal(BinTreeNode *pNode)
 {
@@ -46,4 +38,13 @@ void postorder_traversal(BinTreeNode *pNode)
 		printf("%c ", pNode->data);
 		pNode->visited = 1;
 	}
+}
+
+void visited_zero_traversal(BinTreeNode *pNode)
+{
+	if (!pNode)
+		return ;
+	pNode->visited = 0;
+	visited_zero_traversal(pNode->pLeftChild);
+	visited_zero_traversal(pNode->pRightChild);
 }
