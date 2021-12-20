@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "arrayqueue.h"
 
 typedef struct ArrayGraphType
 {
@@ -43,11 +44,17 @@ int removeEdgeAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID);
 
 // ????? ???? ???
 void displayArrayGraph(ArrayGraph* pGraph);
+
+void traversal_DFS_recur(ArrayGraph *pGraph, int from);
+void traversal_DFS(ArrayGraph *pGraph);
+void traversal_BFS(ArrayGraph *pGraph);
+
 #endif
 
 #ifndef _COMMON_GRAPH_DEF_
 #define _COMMON_GRAPH_DEF_
 
+#define VISITED				2
 #define USED				1
 #define NOT_USED			0
 

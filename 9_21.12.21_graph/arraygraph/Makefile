@@ -1,4 +1,5 @@
 SRCS	=	arraygraph.c \
+			arrayqueue.c \
 			main.c \
 
 OBJS	=	$(SRCS:.c=.o)

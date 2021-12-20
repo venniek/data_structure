@@ -1,5 +1,4 @@
 #include "linkedgraph.h"
-#include "linkedlist.h"
 
 static void free_all(LinkedGraph *linkedgraph)
 {
@@ -125,8 +124,8 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 {
 	LinkedList *ptr;
 	ListNode new_edge;
-	int index = 0;
-
+	int index;
+	
 	if (!pGraph)
 	{
 		printf("[error] Null Parameter : pGraph\n");
@@ -138,7 +137,10 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 	new_edge.to = toVertexID;
 	new_edge.weight = 1;
 	new_edge.pLink = NULL;
-	if (findGraphNodePosition(ptr, toVertexID) == 0)
+	index = findGraphNodePosition(ptr, toVertexID);
+	if (index < 0)
+		return (FALSE);
+	if (index == 0) // 해당 노드가 없다.
 	{
 		addLLElement(ptr, ptr->currentElementCount, new_edge);
 		if (pGraph->graphType == GRAPH_UNDIRECTED)
@@ -155,7 +157,37 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 
 int addEdgewithWeightLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, int weight)
 {
-
+	LinkedList *ptr;
+	ListNode new_edge;
+	int index;
+	
+	if (!pGraph)
+	{
+		printf("[error] Null Parameter : pGraph\n");
+		return (FALSE);
+	}
+	if (!checkVertexValid(pGraph, fromVertexID) || !checkVertexValid(pGraph, toVertexID))
+		return (FALSE);
+	ptr = pGraph->ppAdjEdge[fromVertexID];
+	new_edge.to = toVertexID;
+	new_edge.weight = weight;
+	new_edge.pLink = NULL;
+	index = findGraphNodePosition(ptr, toVertexID);
+	if (index < 0)
+		return (FALSE);
+	if (index == 0) // 해당 노드가 없다.
+	{
+		addLLElement(ptr, ptr->currentElementCount, new_edge);
+		if (pGraph->graphType == GRAPH_UNDIRECTED)
+		{
+			ptr = pGraph->ppAdjEdge[toVertexID];
+			new_edge.to = fromVertexID;
+			addLLElement(ptr, ptr->currentElementCount, new_edge);
+		}
+	}
+	else
+		printf("That edge already exists.\n");
+	return (TRUE);
 }
 
 int checkVertexValid(LinkedGraph* pGraph, int vertexID)
@@ -175,21 +207,53 @@ int checkVertexValid(LinkedGraph* pGraph, int vertexID)
 
 int removeVertexLG(LinkedGraph* pGraph, int vertexID)
 {
+	LinkedList *ptr;
 
+	if (!pGraph)
+	{
+		printf("[error] Null Parameter : pGraph\n");
+		return (FALSE);
+	}
+	if (!checkVertexValid(pGraph, vertexID))
+		return (FALSE);
+	ptr = pGraph->ppAdjEdge[vertexID];
+	deleteLinkedList(ptr);
+	pGraph->pVertex[vertexID] = NOT_USED;
+	return (TRUE);
 }
 
 int removeEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 {
+	LinkedList *ptr;
+	int index = 0;
 
+	if (!pGraph)
+	{
+		printf("[error] Null Parameter : pGraph\n");
+		return (FALSE);
+	}
+	if (!checkVertexValid(pGraph, fromVertexID) || !checkVertexValid(pGraph, toVertexID))
+		return (FALSE);
+	ptr = pGraph->ppAdjEdge[fromVertexID];
+	index = findGraphNodePosition(ptr, toVertexID);
+	if (index < 0)
+		return (FALSE);
+	if (index > 0)
+	{
+		deleteGraphNode(ptr, toVertexID);
+		if (pGraph->graphType == GRAPH_UNDIRECTED)
+			deleteGraphNode(pGraph->ppAdjEdge[toVertexID], fromVertexID);
+	}
+	else
+		printf("[error] Cannot remove edge that doesn't exist.\n");
+	return (TRUE);
 }
 
 void deleteLinkedGraph(LinkedGraph* pGraph)
 {
-	LinkedList **ptr = pGraph->ppAdjEdge;
-
 	for (int i = 0; i < pGraph->maxVertexCount; i++)
 	{
-		deleteGraphNode(ptr[i], i);
+		removeVertexLG(pGraph, i);
 	}
 	free(pGraph->ppAdjEdge);
 	pGraph->ppAdjEdge = 0;
@@ -201,12 +265,35 @@ void deleteLinkedGraph(LinkedGraph* pGraph)
 
 void deleteGraphNode(LinkedList* pList, int delVertexID)
 {
-	
+	int index = 0;
+
+	if (!pList)
+	{
+		printf("[error] Null Parameter : plist\n");
+		return;
+	}
+	if ((index = findGraphNodePosition(pList, delVertexID)) > 0)
+		removeLLElement(pList, index - 1);
 }
 
+// 주어진 LinkedList에서 vertexID를 데이터로 가진 노드가 있는 지 찾는다.
 int findGraphNodePosition(LinkedList* pList, int vertexID)
 {
+	ListNode *now;
 
+	if (!pList)
+	{
+		printf("[error] Null Parameter : plist\n");
+		return (ERROR); // FALSE(=0) 을 반환해버리면 0번째 인덱스를 찾았는 지랑 구분이 안됨. 따라서 -1 반환.
+	}
+	now = pList->headerNode.pLink;
+	for (int i = 0; i < pList->currentElementCount; i++)
+	{
+		if (now->to == vertexID)
+			return (i + 1); // 참고 : remove시나 다른 쪽에서 i - 1 로 인덱스 넘길 것이므로 ㄱㅊ.
+		now = now->pLink;
+	}
+	return (FALSE);
 }
 
 /*
@@ -264,29 +351,24 @@ void displayLinkedGraph(LinkedGraph* pGraph)
 		printf("This is an Empty graph.\n");
 		return ;
 	}
-	printf("----------Edges----------\n");
-	for (int i = 0; i < pGraph->maxVertexCount; i++)
-	{
-		for (int j = 0; j < pGraph->maxVertexCount; j++)
-		{
-			printf("%d ", pGraph->ppAdjEdge[i][j]);
-		}
-		printf("\n");
-	}
-	printf("-------------------------\n\n");
-
-	printf("------Adjacent Nodes-----\n");
+	printf("-----------Adjacent Nodes----------\n");
 	for (int i = 0; i < pGraph->maxVertexCount; i++)
 	{
 		if (pGraph->pVertex[i] == NOT_USED)
 			continue;
-		printf("from node %d to: ", i);
-		for (int j = 0; j < pGraph->maxVertexCount; j++)
-		{
-			// if (pGraph->ppAdjEdge[i][j] == 1)
-			// 	printf("%d ", j);
-		}
+		printf("from node %d:\n", i);
+		print_list(&pGraph->ppAdjEdge[i]->headerNode);
 		printf("\n");
 	}
-	printf("-------------------------\n");
+	printf("-----------------------------------\n");
+}
+
+void print_list(ListNode *curr)
+{
+	curr = curr->pLink; // 헤더노드의 다음 노드(이 노드에 연결된 노드들)부터 출력
+	while(curr)
+	{
+		printf("           to: %d, weight: %d\n", curr->to, curr->weight);
+		curr = curr->pLink;
+	}
 }

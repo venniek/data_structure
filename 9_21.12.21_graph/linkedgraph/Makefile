@@ -1,4 +1,7 @@
 SRCS	=	linkedgraph.c \
+			linkedgraph_traversal.c \
+			linkedlist.c\
+			arrayqueue.c \
 			main.c \
 
 OBJS	=	$(SRCS:.c=.o)

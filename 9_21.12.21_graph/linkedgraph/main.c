@@ -1,6 +1,6 @@
-#include "arraygraph.h"
+#include "linkedgraph.h"
 
-void    drawback_visitedStatus(ArrayGraph *pGraph) 
+void    drawback_visitedStatus(LinkedGraph *pGraph) 
 {
     for (int i = 0; i < pGraph->maxVertexCount; i++)
     {
@@ -10,7 +10,7 @@ void    drawback_visitedStatus(ArrayGraph *pGraph)
 } /* 프로그램 실행 중 traverse가 돌아가고 나면 used가 visited로 다 바뀜. 그럼 다음에 traverse 호출했을 때 돌지 않는다. 
 (그 이외의 다른 함수들에서도 USED를 확인하는 조건문들이 때문에 오동작 발생 가능) 이를 위해 그 전으로 전부 복구시켜줌. */
 
-int     traverse_test(ArrayGraph *pGraph)
+int     traverse_test(LinkedGraph *pGraph)
 {
     int option;
 	int err_flag =1;
@@ -38,18 +38,18 @@ int     traverse_test(ArrayGraph *pGraph)
 	return (err_flag);
 }
 
-int     addVertex_test(ArrayGraph *pGraph)
+int     addVertex_test(LinkedGraph *pGraph)
 {
     int err_flag = 1;
     int d;
 
     printf("Type any number to add Vertex: \n");
     scanf(" %d", &d);
-	err_flag = addVertexAG(pGraph, d);
+	err_flag = addVertexLG(pGraph, d);
     return (err_flag);
 }
 
-int     addEdge_test(ArrayGraph *pGraph, int op)
+int     addEdge_test(LinkedGraph *pGraph, int op)
 {
     int from, to, weight;
     int err_flag = 1;
@@ -58,28 +58,28 @@ int     addEdge_test(ArrayGraph *pGraph, int op)
 	printf("from, to: ");
     scanf(" %d %d", &from, &to);
 	if (op == 1 || op == 2)
-		err_flag = addEdgeAG(pGraph, from, to);
+		err_flag = addEdgeLG(pGraph, from, to);
 	else
 	{
 		printf("This is Directed graph, so type weight: ");
 		scanf(" %d", &weight);
-		err_flag = addEdgewithWeightAG(pGraph, from, to, weight);
+		err_flag = addEdgewithWeightLG(pGraph, from, to, weight);
 	}
     return (err_flag);
 }
 
-int     removeVertex_test(ArrayGraph *pGraph)
+int     removeVertex_test(LinkedGraph *pGraph)
 {
     int err_flag = 1;
     int c;
 
 	printf("Vertex ID to remove: ");
 	scanf(" %d", &c);
-	err_flag = removeVertexAG(pGraph, c);
+	err_flag = removeVertexLG(pGraph, c);
     return (err_flag);
 }
 
-int     removeEdge_test(ArrayGraph *pGraph)
+int     removeEdge_test(LinkedGraph *pGraph)
 {
     int err_flag = 1;
     int from, to;
@@ -87,26 +87,26 @@ int     removeEdge_test(ArrayGraph *pGraph)
     printf("Two number to remove edge between them: \n");
     printf("from, to: ");
     scanf(" %d %d", &from, &to);
-    err_flag = removeEdgeAG(pGraph, from, to);
+    err_flag = removeEdgeLG(pGraph, from, to);
     return (err_flag);
 }
 
-int     test_ArrayGraph(int op)
+int     test_LinkedGraph(int op)
 {
-    ArrayGraph  *pGraph;
+    LinkedGraph  *pGraph;
 	int input = 0;
     int maxcount = 0;
 	printf("maxcount: ");
 	scanf(" %d", &maxcount);
 	if (op == 1 || op == 3)
-		pGraph = createArrayGraph(maxcount);
+		pGraph = createLinkedGraph(maxcount);
 	else
-		pGraph = createArrayDirectedGraph(maxcount);
+		pGraph = createLinkedDirectedGraph(maxcount);
     while (1)
     {
         int err_flag = 1;
         printf("\nEdge Status : ======================================================================\n");
-        displayArrayGraph(pGraph);
+        displayLinkedGraph(pGraph);
         printf("====================================================================================\n");
         printf("\n    1 (add Vertex)   2 (add Edge)   3 (remove Vertex)\n    4 (remove Edge)   5 (Traversal)   6 (exit)\n\nType your command number : ");
         scanf(" %d", &input);
@@ -155,7 +155,7 @@ int     test_ArrayGraph(int op)
         }
     }
     printf("\n");
-    deleteArrayGraph(pGraph);
+    deleteLinkedGraph(pGraph);
     return (0);
 }
 
@@ -171,7 +171,7 @@ int     main()
         printf("[error] Terminate the Test Program\n");
         return (0);
     }
-    test_ArrayGraph(option);
+    test_LinkedGraph(option);
     system("leaks a.out");
     return (0);
 }

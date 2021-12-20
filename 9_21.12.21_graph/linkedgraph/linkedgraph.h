@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "linkedlist.h"
+#include "arrayqueue.h"
 
 typedef struct LinkedGraphType
 {
@@ -57,6 +59,12 @@ int getGraphTypeLG(LinkedGraph* pGraph);
 
 // ????? ???? ???
 void displayLinkedGraph(LinkedGraph* pGraph);
+void print_list(ListNode *curr);
+
+void traversal_DFS_recur(LinkedGraph *pGraph, int from);
+void traversal_DFS(LinkedGraph *pGraph);
+void traversal_BFS(LinkedGraph *pGraph);
+
 #endif
 
 #ifndef _COMMON_GRAPH_DEF_
@@ -64,7 +72,9 @@ void displayLinkedGraph(LinkedGraph* pGraph);
 
 #define TRUE				1
 #define FALSE				0
+#define ERROR				-1
 
+#define VISITED				2
 #define USED				1
 #define NOT_USED			0
 

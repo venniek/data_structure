@@ -9,8 +9,8 @@ typedef struct ListNodeType
 
 typedef struct LinkedListType
 {
-	int currentElementCount;	// ���� ����� ������ ����
-	ListNode headerNode;		// ��� ���(Header Node)
+	int currentElementCount;	// ???? ????? ?????? ????
+	ListNode headerNode;		// ??? ???(Header Node)
 } LinkedList;
 
 LinkedList* createLinkedList();

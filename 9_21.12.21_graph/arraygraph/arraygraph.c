@@ -27,10 +27,10 @@ static void free_all(ArrayGraph *arraygraph)
 	}
 }
 
-ArrayGraph* createArrayGraph(int maxVertexCount)
+ArrayGraph *createArrayGraph(int maxVertexCount)
 {
 	ArrayGraph *arraygraph;
-	
+
 	if (maxVertexCount <= 0)
 	{
 		printf("[error] invalid value : maxVertexCount\n");
@@ -57,21 +57,21 @@ ArrayGraph* createArrayGraph(int maxVertexCount)
 		if (!arraygraph->ppAdjEdge[i])
 		{
 			printf("[error] malloc failure : ppAdjEdge[%d]\n", i);
-			free_all(&arraygraph);
+			free_all(arraygraph);
 			return (NULL);
 		}
 	}
-	arraygraph->pVertex = (int *)calloc(maxVertexCount,sizeof(int));
+	arraygraph->pVertex = (int *)calloc(maxVertexCount, sizeof(int));
 	if (!arraygraph->pVertex)
 	{
 		printf("[error] malloc failure : pVertex\n");
-		free_all(&arraygraph);
+		free_all(arraygraph);
 		return (NULL);
 	}
 	return (arraygraph);
 }
 
-ArrayGraph* createArrayDirectedGraph(int maxVertexCount)
+ArrayGraph *createArrayDirectedGraph(int maxVertexCount)
 {
 	ArrayGraph *arraydgraph;
 
@@ -101,31 +101,31 @@ ArrayGraph* createArrayDirectedGraph(int maxVertexCount)
 		if (!arraydgraph->ppAdjEdge[i])
 		{
 			printf("[error] malloc failure : ppAdjEdge[%d]\n", i);
-			free_all(&arraydgraph);
+			free_all(arraydgraph);
 			return (NULL);
 		}
 	}
-	arraydgraph->pVertex = (int *)calloc(maxVertexCount,sizeof(int));
+	arraydgraph->pVertex = (int *)calloc(maxVertexCount, sizeof(int));
 	if (!arraydgraph->pVertex)
 	{
 		printf("[error] malloc failure : pVertex\n");
-		free_all(&arraydgraph);
+		free_all(arraydgraph);
 		return (NULL);
 	}
 	return (arraydgraph);
 }
 
-void deleteArrayGraph(ArrayGraph* pGraph)
+void deleteArrayGraph(ArrayGraph *pGraph)
 {
 	if (!pGraph)
 	{
 		printf("[error] Null Parameter : pGraph\n");
-		return ;
+		return;
 	}
-	free_all(&pGraph);
+	free_all(pGraph);
 }
 
-int isEmptyAG(ArrayGraph* pGraph)
+int isEmptyAG(ArrayGraph *pGraph)
 {
 	if (!pGraph)
 	{
@@ -137,14 +137,14 @@ int isEmptyAG(ArrayGraph* pGraph)
 	return (FALSE);
 }
 
-int addVertexAG(ArrayGraph* pGraph, int vertexID)
+int addVertexAG(ArrayGraph *pGraph, int vertexID)
 {
 	if (!pGraph)
 	{
 		printf("[error] Null Parameter : pGraph\n");
 		return (FALSE);
 	}
-	if (vertexID < 0 || vertexID > (pGraph-> maxVertexCount - 1))
+	if (vertexID < 0 || vertexID > (pGraph->maxVertexCount - 1))
 	{
 		printf("[error] Invalid value : VertexID\n");
 		return (FALSE);
@@ -159,7 +159,7 @@ int addVertexAG(ArrayGraph* pGraph, int vertexID)
 	return (TRUE);
 }
 
-int addEdgeAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID)
+int addEdgeAG(ArrayGraph *pGraph, int fromVertexID, int toVertexID)
 {
 	if (!pGraph)
 	{
@@ -179,7 +179,7 @@ int addEdgeAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID)
 	return (TRUE);
 }
 
-int addEdgewithWeightAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID, int weight)
+int addEdgewithWeightAG(ArrayGraph *pGraph, int fromVertexID, int toVertexID, int weight)
 {
 	if (!pGraph)
 	{
@@ -199,7 +199,7 @@ int addEdgewithWeightAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID, in
 	return (TRUE);
 }
 
-int checkVertexValid(ArrayGraph* pGraph, int vertexID)
+int checkVertexValid(ArrayGraph *pGraph, int vertexID)
 {
 	if (vertexID < 0 || vertexID > pGraph->maxVertexCount - 1)
 	{
@@ -214,7 +214,7 @@ int checkVertexValid(ArrayGraph* pGraph, int vertexID)
 	return (TRUE);
 }
 
-int removeVertexAG(ArrayGraph* pGraph, int vertexID)
+int removeVertexAG(ArrayGraph *pGraph, int vertexID)
 {
 	if (!pGraph)
 	{
@@ -229,7 +229,7 @@ int removeVertexAG(ArrayGraph* pGraph, int vertexID)
 	return (TRUE);
 }
 
-int removeEdgeAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID)
+int removeEdgeAG(ArrayGraph *pGraph, int fromVertexID, int toVertexID)
 {
 	if (!pGraph)
 	{
@@ -249,17 +249,17 @@ int removeEdgeAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID)
 	return (TRUE);
 }
 
-void displayArrayGraph(ArrayGraph* pGraph)
+void displayArrayGraph(ArrayGraph *pGraph)
 {
 	if (!pGraph)
 	{
 		printf("[error] Null Parameter : pGraph\n");
-		return ;
+		return;
 	}
 	if (isEmptyAG(pGraph))
 	{
 		printf("This is an Empty graph.\n");
-		return ;
+		return;
 	}
 	printf("----------Weight----------\n");
 	for (int i = 0; i < pGraph->maxVertexCount; i++)
@@ -274,7 +274,7 @@ void displayArrayGraph(ArrayGraph* pGraph)
 	printf("------Adjacent Nodes-----\n");
 	for (int i = 0; i < pGraph->maxVertexCount; i++)
 	{
-		if (pGraph->pVertex[i] == NOT_USED)
+		if (pGraph->pVertex[i] == NOT_USED) // USED 상태인 vertex 노드와 그 인접노드들 출력.
 			continue;
 		printf("from node %d to: ", i);
 		for (int j = 0; j < pGraph->maxVertexCount; j++)
@@ -286,8 +286,3 @@ void displayArrayGraph(ArrayGraph* pGraph)
 	}
 	printf("-------------------------\n");
 }
-
-/*
-* Traversal 
-*/
-
