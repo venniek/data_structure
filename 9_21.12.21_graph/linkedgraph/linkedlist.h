@@ -3,7 +3,8 @@
 
 typedef struct ListNodeType
 {
-	int data;
+	int to;
+	int weight;
 	struct ListNodeType* pLink;
 } ListNode;
 

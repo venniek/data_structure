@@ -8,7 +8,8 @@ LinkedList* createLinkedList()
 
 	if (!(list = (LinkedList *)malloc(sizeof(LinkedList))))
 		return (NULL);
-	list->headerNode.data = 0;
+	list->headerNode.to = 0;
+	list->headerNode.weight = 0;
 	list->headerNode.pLink = 0;
 	list->currentElementCount = 0;
 	return (list);

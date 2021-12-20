@@ -1,36 +1,36 @@
 #include "arraygraph.h"
 
-static void free_all(ArrayGraph **arraygraph)
+static void free_all(ArrayGraph *arraygraph)
 {
-	for (int j = 0; j < (*arraygraph)->maxVertexCount; j++)
+	for (int j = 0; j < arraygraph->maxVertexCount; j++)
 	{
-		if ((*arraygraph)->ppAdjEdge[j])
+		if (arraygraph->ppAdjEdge[j])
 		{
-			free((*arraygraph)->ppAdjEdge[j]);
-			(*arraygraph)->ppAdjEdge[j] = 0;
+			free(arraygraph->ppAdjEdge[j]);
+			arraygraph->ppAdjEdge[j] = 0;
 		}
 	}
-	if ((*arraygraph)->ppAdjEdge)
+	if (arraygraph->ppAdjEdge)
 	{
-		free((*arraygraph)->ppAdjEdge);
-		(*arraygraph)->ppAdjEdge = 0;
+		free(arraygraph->ppAdjEdge);
+		arraygraph->ppAdjEdge = 0;
 	}
-	if ((*arraygraph)->pVertex)
+	if (arraygraph->pVertex)
 	{
-		free((*arraygraph)->pVertex);
-		(*arraygraph)->pVertex = 0;
+		free(arraygraph->pVertex);
+		arraygraph->pVertex = 0;
 	}
-	if (*arraygraph)
+	if (arraygraph)
 	{
-		free(*arraygraph);
-		*arraygraph = 0;
+		free(arraygraph);
+		arraygraph = 0;
 	}
 }
 
 ArrayGraph* createArrayGraph(int maxVertexCount)
 {
 	ArrayGraph *arraygraph;
-		
+	
 	if (maxVertexCount <= 0)
 	{
 		printf("[error] invalid value : maxVertexCount\n");
