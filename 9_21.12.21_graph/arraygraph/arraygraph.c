@@ -1,10 +1,12 @@
 #include "arraygraph.h"
 
+
+// malloc 실패 시 기존의 메모리들을 free() 해주는 함수.
 static void free_all(ArrayGraph *arraygraph)
 {
 	for (int j = 0; j < arraygraph->maxVertexCount; j++)
 	{
-		if (arraygraph->ppAdjEdge[j])
+		if (arraygraph->ppAdjEdge[j]) // 있는 것 까지만 free()
 		{
 			free(arraygraph->ppAdjEdge[j]);
 			arraygraph->ppAdjEdge[j] = 0;
@@ -25,7 +27,7 @@ static void free_all(ArrayGraph *arraygraph)
 		free(arraygraph);
 		arraygraph = 0;
 	}
-}
+} 
 
 ArrayGraph *createArrayGraph(int maxVertexCount)
 {

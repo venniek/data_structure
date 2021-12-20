@@ -47,7 +47,7 @@ void traversal_BFS(LinkedGraph *pGraph)
 				now = dequeueAQ(queue);
 				printf("%d ", now->data);
 				ListNode *next = pGraph->ppAdjEdge[now->data]->headerNode.pLink;
-				for (int j = 0; j < pGraph->ppAdjEdge[next->to]->currentElementCount; j++)
+				for (int j = 0; j < pGraph->ppAdjEdge[now->data]->currentElementCount; j++)
 				{
 					if (next == NULL)
 						break;
