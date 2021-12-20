@@ -7,17 +7,16 @@ int     test_ArrayGraph(int op)
     int maxcount = 0;
 	printf("maxcount: ");
 	scanf(" %d", &maxcount);
-	if (op == 1)
+	if (op == 1 || op == 3)
 		pGraph = createArrayGraph(maxcount);
 	else
 		pGraph = createArrayDirectedGraph(maxcount);
     while (1)
     {
         int err_flag = 1;
-        printf("\n=====================================================================================\n");
-        printf("Edge Status :\n");
+        printf("\nEdge Status : ======================================================================\n");
         displayArrayGraph(pGraph);
-        printf("\n=====================================================================================\n");
+        printf("====================================================================================\n");
         printf("\n    1 (add Vertex)   2 (add Edge)   3 (remove Vertex)\n    4 (remove Edge)   5 (Traversal)   6 (exit)\n\nType your command number : ");
         scanf(" %d", &input);
         if (input == 6)
@@ -29,10 +28,10 @@ int     test_ArrayGraph(int op)
         {
             case 1 :  //add vertex
             {
-                int c;
+                int d;
                 printf("Type any number to add Vertex: \n");
-                scanf(" %d", &c);
-				err_flag = addVertexAG(pGraph, c);
+                scanf(" %d", &d);
+				err_flag = addVertexAG(pGraph, d);
                 break;
             }
             case 2 :  //add edge
@@ -41,7 +40,7 @@ int     test_ArrayGraph(int op)
                 printf("Type two number to add edge between them: \n");
 				printf("from, to: ");
                 scanf(" %d %d", &from, &to);
-				if (op == 1)
+				if (op == 1 || op == 2)
 					err_flag = addEdgeAG(pGraph, from, to);
 				else
 				{
@@ -77,7 +76,7 @@ int     test_ArrayGraph(int op)
 				// // 	err_flag = dfs_traversal(pGraph);
 				// // else
 				// // 	err_flag = bfs_traversal(pGraph);
-				 break;
+				break;
             }
 			default :  //exit
             {
@@ -99,9 +98,10 @@ int     test_ArrayGraph(int op)
 int     main()
 {
     int option = 0;
-    printf("Choose your Graph\n    1 Undirected    2 Directed\n");
+    printf("Choose your Graph\n    1 Undirected Unweighted    2 Directed Unweighted\n");
+	printf("    3 Undirected Weighted      4 Directed Weighted\n");
     scanf(" %d", &option);
-    if (option != 1 && option != 2)
+    if (!(option >= 1 && option <= 4))
     {
         printf("[error] undefined command number.\n");
         printf("[error] Terminate the Test Program\n");
@@ -111,5 +111,3 @@ int     main()
     system("leaks a.out");
     return (0);
 }
-
-// leaks -atExit -- ./a.out
