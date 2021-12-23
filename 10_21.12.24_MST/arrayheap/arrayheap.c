@@ -1,4 +1,4 @@
-#include "../includes/arrayheap.h"
+#include "arrayheap.h"
 
 ArrayHeap* createArrayHeap(int maxElementCount)
 {

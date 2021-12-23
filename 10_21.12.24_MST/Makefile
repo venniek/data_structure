@@ -1,6 +1,6 @@
 SRCS	=	$(wildcard arraygraph/*.c) \
-			$(wildcard heap/srcs/*.c) \
-			$(wildcard *.c) 
+			$(wildcard arrayheap/*.c) \
+			$(wildcard srcs/*.c)
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -8,7 +8,7 @@ CC		=	gcc
 
 CFLAGS	=	-Wall -Werror -Wextra
 
-NAME	=	a.out
+NAME	=	mst
 
 all		:	$(NAME)
 
