@@ -1,7 +1,6 @@
-SRCS	=	arraygraph.c \
-			arrayqueue.c \
-			arraygraph_traversal.c \
-			main.c \
+SRCS	=	$(wildcard arraygraph/*.c) \
+			$(wildcard heap/srcs/*.c) \
+			$(wildcard *.c) 
 
 OBJS	=	$(SRCS:.c=.o)
 

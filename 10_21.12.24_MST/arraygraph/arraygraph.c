@@ -45,6 +45,7 @@ ArrayGraph *createArrayGraph(int maxVertexCount)
 		return (NULL);
 	}
 	arraygraph->maxVertexCount = maxVertexCount;
+	arraygraph->currentEdgeCount = 0;
 	arraygraph->currentVertexCount = 0;
 	arraygraph->graphType = GRAPH_UNDIRECTED;
 	arraygraph->ppAdjEdge = (int **)calloc(maxVertexCount, sizeof(int *));
@@ -89,6 +90,7 @@ ArrayGraph *createArrayDirectedGraph(int maxVertexCount)
 		return (NULL);
 	}
 	arraydgraph->maxVertexCount = maxVertexCount;
+	arraydgraph->currentEdgeCount = 0;
 	arraydgraph->currentVertexCount = 0;
 	arraydgraph->graphType = GRAPH_DIRECTED;
 	arraydgraph->ppAdjEdge = (int **)calloc(maxVertexCount, sizeof(int *));
@@ -173,8 +175,12 @@ int addEdgeAG(ArrayGraph *pGraph, int fromVertexID, int toVertexID)
 	if (pGraph->ppAdjEdge[fromVertexID][toVertexID] == 0)
 	{
 		pGraph->ppAdjEdge[fromVertexID][toVertexID] = 1;
+		pGraph->currentEdgeCount++;
 		if (pGraph->graphType == GRAPH_UNDIRECTED)
+		{
 			pGraph->ppAdjEdge[toVertexID][fromVertexID] = 1;
+			pGraph->currentEdgeCount++;
+		}
 	}
 	else
 		printf("That edge already exists.\n");
@@ -193,8 +199,12 @@ int addEdgewithWeightAG(ArrayGraph *pGraph, int fromVertexID, int toVertexID, in
 	if (pGraph->ppAdjEdge[fromVertexID][toVertexID] == 0)
 	{
 		pGraph->ppAdjEdge[fromVertexID][toVertexID] = weight;
+		pGraph->currentEdgeCount++;
 		if (pGraph->graphType == GRAPH_UNDIRECTED)
+		{
 			pGraph->ppAdjEdge[toVertexID][fromVertexID] = weight;
+			pGraph->currentEdgeCount++;
+		}
 	}
 	else
 		printf("That edge already exists.\n");
@@ -243,8 +253,12 @@ int removeEdgeAG(ArrayGraph *pGraph, int fromVertexID, int toVertexID)
 	if (pGraph->ppAdjEdge[fromVertexID][toVertexID] != 0)
 	{
 		pGraph->ppAdjEdge[fromVertexID][toVertexID] = 0;
+		pGraph->currentEdgeCount--;
 		if (pGraph->graphType == GRAPH_UNDIRECTED)
+		{
 			pGraph->ppAdjEdge[toVertexID][fromVertexID] = 0;
+			pGraph->currentEdgeCount--;
+		}
 	}
 	else
 		printf("[error] Cannot remove edge that doesn't exist.\n");
