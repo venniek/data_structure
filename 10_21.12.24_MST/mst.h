@@ -7,13 +7,11 @@
 
 # define INF 2147483647
 
-
 /*utils****************/
 int ft_min(int a, long long b);
 int error_nullparameter(void *parameter, char *str);
 int error_mallocfailure(void *parameter, char *str);
 ArrayHeapNode make_element(int x, int y, int weight);
-
 
 /*Dijkstra*************/
 ArrayGraph *fill_newArrayGraph_Dijkstra(int maxCount);
