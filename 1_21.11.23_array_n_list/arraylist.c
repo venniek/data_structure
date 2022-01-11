@@ -1,7 +1,4 @@
 #include "arraylist.h"
-#include <string.h> //NULL
-#include <stdlib.h> //malloc
-#include <stdio.h> //printf
 
 ArrayList* createArrayList(int maxElementCount)
 {	
@@ -13,7 +10,7 @@ ArrayList* createArrayList(int maxElementCount)
 		return (NULL);
 	array->currentElementCount = 0;
 	array->maxElementCount = maxElementCount;
-	if (!(array->pElement = (ArrayListNode *)calloc(array->maxElementCount, sizeof(ArrayListNode)))) ///malloc->calloc
+	if (!(array->pElement = (ArrayListNode *)calloc(array->maxElementCount, sizeof(ArrayListNode))))
 		return (NULL);
 	return (array);
 }
@@ -38,37 +35,27 @@ int isArrayListFull(ArrayList* pList)
 
 int addALElement(ArrayList* pList, int position, ArrayListNode element)
 {
-	int i = pList->currentElementCount - 1;
-
-	if(!pList || !element.data)
+	if(!pList)
 		return (FALSE);
-	if (position < 0 || position >= pList->currentElementCount)
+	if (position < 0 || position > pList->currentElementCount)
 		return (FALSE);
 	if (isArrayListFull(pList))
 		return (FALSE);
-	while (i > position)
-	{
+	for (int i = pList->currentElementCount; i > position; i--)
 		pList->pElement[i] = pList->pElement[i - 1];
-		i--;
-	}
-	pList->pElement[position].data = element.data;
+	pList->pElement[position] = element;
 	pList->currentElementCount++;
 	return (TRUE);
 }
 
 int removeALElement(ArrayList* pList, int position)
 {
-	int i = position;
 	if(!pList)
 		return (FALSE);
 	if (position < 0 || position >= pList->currentElementCount)
 		return (FALSE);
-	pList->pElement[i].data = 0;
-	while(i < pList->currentElementCount - 1)
-	{
-		pList->pElement[i].data = pList->pElement[i + 1].data;
-		i++;
-	}
+	for (int i = position; i < pList->currentElementCount - 1; i++)
+		pList->pElement[i] = pList->pElement[i + 1];
 	pList->currentElementCount--;
 	return (TRUE);
 }
@@ -92,7 +79,7 @@ void displayArrayList(ArrayList* pList)
 
 void clearArrayList(ArrayList* pList)
 {
-	if(!pList)
+	if (!pList)
 		return ;
 	for (int i = pList->currentElementCount - 1; i >= 0; i--)
 		removeALElement(pList, i);
