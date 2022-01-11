@@ -1,6 +1,4 @@
-INC_LINKED = LinkedList
 SRCS_LINKED = linkedlist.c main_linkedlist.c
-
 OBJS_LINKED = $(SRCS_LINKED:.c=.o)
 
 CC = gcc
